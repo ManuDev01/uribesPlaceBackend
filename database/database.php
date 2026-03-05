@@ -21,7 +21,7 @@ class Database {
         try {
             // Creamos la conexión PDO
             $this->connection = new PDO($dsn, $dbConfig['user'], $dbConfig['pass'], $options);
-            echo "Conexión a la base de datos exitosa.";
+
 
         } catch (PDOException $e) {
             // Error controlado para no exponer credenciales en pantalla
@@ -33,6 +33,7 @@ class Database {
     public static function getInstance() {
         if (self::$instance === null) {
             self::$instance = new self();
+            echo "<script>console.log('✅ PHP: Conexión a la base de datos establecida con éxito.');</script>";
         }
         return self::$instance;
     }
