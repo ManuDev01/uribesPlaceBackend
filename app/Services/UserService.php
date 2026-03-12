@@ -7,7 +7,7 @@
   class UserService {
   
   public function listAll(){
-      return DB::select("SELECT * FROM products");
+      return DB::select("SELECT * FROM users");
   }
       
     
