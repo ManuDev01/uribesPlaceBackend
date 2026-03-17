@@ -15,9 +15,12 @@ use app\controller\UserController;
 |
 */
 
-Route::get('/getAllUsers', [UserController::class, 'index']);
+# ! Rutas Users
+Route::get('users/getAllUsers', [UserController::class, 'index']);
 
-Route::get('/getAllProducts');
+# ! Rutas Products
+# TODO: Llamar a la clase ProductController
+Route::get('products/getAllProducts');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
