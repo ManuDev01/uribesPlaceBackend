@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use app\controller\UserController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,7 @@ use app\controller\UserController;
 */
 
 # ! Rutas Users
-Route::get('users/getAllUsers', [UserController::class, 'index']);
+Route::get('users/getAllUsers', [UserController::class, 'getAll']);
 
 # ! Rutas Products
 # TODO: Llamar a la clase ProductController
