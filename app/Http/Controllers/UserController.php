@@ -9,6 +9,7 @@
 
     use Spatie\RouteAttributes\Attributes\Get;
     use Spatie\RouteAttributes\Attributes\Post;
+    use Spatie\RouteAttributes\Attributes\Delete;
     use Spatie\RouteAttributes\Attributes\Prefix;
 
     #[Prefix('users')]
@@ -53,4 +54,11 @@
         }
     }
 
+    #[Delete('/delete/{id}')]
+    public function deleteUser(Request $request) {
+            $id = $request->route('id');
+            $this->users->delete($id);
+
+            return response()->json(['message' => 'User deleted successfully'], 200);
+    }
   }

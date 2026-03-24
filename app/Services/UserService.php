@@ -48,4 +48,10 @@
             return null;
         }
 
+        public function delete($id) {
+            DB::update("UPDATE users set isActive = 0 WHERE userId = ?", [$id]);
+
+            return true;
+        }
+
     }
