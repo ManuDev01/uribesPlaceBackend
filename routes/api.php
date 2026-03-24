@@ -18,6 +18,7 @@ use App\Http\Controllers\ProductController;
 
 # ! Rutas Users
 Route::get('users/getAllUsers', [UserController::class, 'getAll']);
+Route::post('users/registerUser', [UserController::class, 'registerUser']);
 
 # ! Rutas Products
 # TODO: Llamar a la clase ProductController
