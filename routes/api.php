@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +21,11 @@ Route::get('users/getAllUsers', [UserController::class, 'getAll']);
 
 # ! Rutas Products
 # TODO: Llamar a la clase ProductController
-Route::get('products/getAllProducts', [ProductsController::class, 'getAll']);
-Route::post('/products', [ProductsController::class, 'store']);
-Route::get('/products/{id}', [ProductsController::class, 'show']);
-Route::put('/products/{id}', [ProductsController::class, 'update']);
-Route::delete('/products/{id}', [ProductsController::class, 'destroy']);
+Route::get('products/getAllProducts', [ProductController::class, 'getAll']);
+Route::post('/products', [ProductController::class, 'store']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::put('/products/{id}', [ProductController::class, 'update']);
+Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
