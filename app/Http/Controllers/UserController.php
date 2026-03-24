@@ -3,6 +3,7 @@
     namespace App\Http\Controllers;
 
     use App\Services\UserService;
+    use App\Services\JwtService;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
 
@@ -13,9 +14,11 @@
     #[Prefix('users')]
   Class UserController extends Controller{
     protected $users;
+    protected $jwt;
 
-    public function __construct(UserService $UserService) {
+    public function __construct(UserService $UserService, JwtService $jwtService) {
         $this->users = $UserService;
+        $this->jwt = $jwtService;
     }
 
     #[Post('/registerUser')]
@@ -35,11 +38,16 @@
 
     #[Get('/login')]
     public function login(Request $request){
-        $loginData = $request->all();
-        $user = $this->users->login($loginData);
+
+        $user = $this->users->login($request->all());
 
         if ($user) {
-            return response()->json(['data' => $user], 200);
+            $token = $this->jwt->createToken($user);
+
+            return response()->json([
+                'status' => 'success',
+                'token' => $token,
+                'data' => $user], 200);
         } else {
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
