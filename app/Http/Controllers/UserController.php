@@ -13,6 +13,13 @@
         $this->users = $UserService;
     }
 
+    public function registerUser(Request $request){
+        $userData = $request->all();
+        $newUser = $this->users->register($userData);
+
+        return response() -> json (['data' => $newUser], 201);
+    }
+
     public function getAll(){
         $allUsers = $this->users->listAll();
 
