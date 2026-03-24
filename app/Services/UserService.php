@@ -11,23 +11,41 @@
             return DB::select("SELECT * FROM users");
         }
 
-        public function register($userData) {
-            // Extraemos los datos usando las llaves correctas que enviaremos desde el JSON
-            $name     = $userData['userName'];
-            $email    = $userData['userEmail'];
-            $password = Hash::make($userData['userPassword']);
-            $phone    = $userData['userPhone'] ?? null;
-            $address  = $userData['userAddress'] ?? null;
+        public function register($userData){
+            // Mapeamos los datos del JSON a las columnas reales de tu SQL
+            $nickname = $userData['userName']; // Usamos userName del JSON para el nickname
+            $firstName = $userData['firstName'] ?? 'Sin Nombre';
+            $email = $userData['userEmail'];
+            $password = Hash::make($userData['userPassword'], PASSWORD_BCRYPT);
+            $dni = $userData['dni'] ?? '00000000'; // Tu SQL pide DNI como not null
 
-            // La consulta SQL con los nombres de columnas exactos de tu imagen
-            DB::insert("INSERT INTO users (userName, userEmail, userPassword, userPhone, userAddress) 
-                        VALUES (?, ?, ?, ?, ?)", 
-                        [$name, $email, $password, $phone, $address]);
+            // INSERT con los nombres de columna exactos de tu uribesPlaceDB.sql
+            DB::insert("INSERT INTO users (nickname, firstName, email, password, DNI)
+                    VALUES (?, ?, ?, ?, ?)",
+                [$nickname, $firstName, $email, $password, $dni]);
 
             return [
-                'userName' => $name, 
-                'userEmail' => $email
+                'nickname' => $nickname,
+                'email' => $email
             ];
+        }
+
+        public function login($loginData) {
+            $email = $loginData['userEmail'];
+            $plainPassword = $loginData['userPassword'];
+
+            // 1. Buscamos al usuario solo por email
+            $user = DB::selectOne("SELECT * FROM users WHERE email = ?", [$email]);
+
+            // 2. Si el usuario existe, verificamos la contraseña
+            if ($user && password_verify($plainPassword, $user->password)) {
+                // Contraseña correcta
+                unset($user->password); // Por seguridad, no envíes el hash al frontend
+                return $user;
+            }
+
+            // 3. Si no existe o la clave no coincide
+            return null;
         }
 
     }

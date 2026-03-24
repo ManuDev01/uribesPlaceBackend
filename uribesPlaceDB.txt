@@ -1,7 +1,7 @@
 create table if not EXISTS state(
 	stateId integer PRIMARY Key AUTO_INCREMENT,
     stateName varchar(25)
-); 
+);
 
 create table if not EXISTS municipalities(
 	municipalitiesId integer primary key AUTO_INCREMENT,
@@ -41,6 +41,7 @@ Create table if not EXISTS users(
     nickname varchar(25) not null,
     firstName varchar(25) not null,
     lastName varchar(25),
+    password varchar(255) not null,
     email varchar(25) not null,
     DNI varchar(15) not null,
     stateId integer REFERENCES state(stateId),

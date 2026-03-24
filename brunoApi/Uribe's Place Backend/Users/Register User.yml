@@ -11,10 +11,10 @@ http:
     data: |-
       {
           "userName": "admin",
+          "firstName": "admin",
           "userEmail": "admin@admin.com",
           "userPassword": "admin",
-          "userPhone": "admin",
-          "userAddress": "Maracaibo, Zulia"
+          "dni": "123456789"
       }
   auth: inherit
 
