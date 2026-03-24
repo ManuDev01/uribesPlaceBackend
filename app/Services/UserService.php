@@ -48,6 +48,19 @@
             return null;
         }
 
+        public function updateUser($userData)
+        {
+            $userId = $userData['userId'];
+            $nickname = $userData['userName'];
+            $firstName = $userData['firstName'];
+            $lastName = $userData['lastName'];
+            $email = $userData['userEmail'];
+            $dni = $userData['dni'];
+
+            DB::update("UPDATE users set ? where userId = ?", [$userData, $userId]);
+            return true;
+        }
+
         public function delete($id) {
             DB::update("UPDATE users set isActive = 0 WHERE userId = ?", [$id]);
 
