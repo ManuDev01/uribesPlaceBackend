@@ -21,7 +21,6 @@ Route::get('users/getAllUsers', [UserController::class, 'getAll']);
 Route::post('users/registerUser', [UserController::class, 'registerUser']);
 
 # ! Rutas Products
-# TODO: Llamar a la clase ProductController
 Route::get('products/getAllProducts', [ProductController::class, 'getAll']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::get('/products/{id}', [ProductController::class, 'show']);

@@ -1,0 +1,26 @@
+info:
+  name: create product
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: http://127.0.0.1:8000/api/products
+  body:
+    type: json
+    data: |-
+      {"productName" : "marihuana",
+       "productDescription" : "cannabis rico para volar",
+       "brand" : "urihuana",
+       "idStore" : 1,
+       "idProductQuality" : 1,
+       "stock" : 5000
+       "SKU" : "wiehf"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
