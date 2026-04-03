@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\ROuteAttributes|Attributes\Patch;
+use Spatie\ROuteAttributes\Attributes\Patch;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
