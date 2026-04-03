@@ -16,7 +16,7 @@
             $nickname = $userData['userName']; // Usamos userName del JSON para el nickname
             $firstName = $userData['firstName'] ?? 'Sin Nombre';
             $email = $userData['userEmail'];
-            $password = Hash::make($userData['userPassword'], PASSWORD_BCRYPT);
+            $password = Hash::make($userData['userPassword']);
             $dni = $userData['dni'] ?? '00000000'; // Tu SQL pide DNI como not null
 
             // INSERT con los nombres de columna exactos de tu uribesPlaceDB.sql
