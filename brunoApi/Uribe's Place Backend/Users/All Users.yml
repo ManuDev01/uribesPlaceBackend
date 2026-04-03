@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: https://uribesplacebackend-production.up.railway.app/api/users/getAllUsers
+  url: https://127.0.0.1:8000/api/users/getAllUsers
   auth: inherit
 
 settings:

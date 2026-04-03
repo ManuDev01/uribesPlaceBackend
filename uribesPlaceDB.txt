@@ -2,12 +2,14 @@ create table if not EXISTS state(
                                     stateId integer PRIMARY Key AUTO_INCREMENT,
                                     stateName varchar(25)
 );
+INSERT INTO state (stateId, stateName) VALUES (1, 'Zulia');
 
 create table if not EXISTS municipalities(
                                              municipalitiesId integer primary key AUTO_INCREMENT,
                                              municipalityName varchar(25),
                                              stateId integer REFERENCES state(stateId)
 );
+INSERT INTO municipalities (municipalitiesId, municipalityName, stateId) VALUES (1, 'Maracaibo', 1);
 
 create table if not EXISTS parishes(
                                        parishiesId integer PRIMARY Key AUTO_INCREMENT,
@@ -30,6 +32,7 @@ create table if not EXISTS productQuality (
                                               productQualityId integer PRIMARY key AUTO_INCREMENT,
                                               qualityName varchar(15)
 );
+INSERT INTO productQuality (productQualityId, qualityName) VALUES (1, 'Nuevo');
 
 create table if not EXISTS deliveryStatus (
                                               deliveryStatusId integer PRIMARY key AUTO_INCREMENT,
@@ -57,6 +60,24 @@ alter table users add column password varchar(255) not null after email;
 alter table users add column role varchar(20) not null default 'user' after password;
 alter table users add column isActive boolean default true after role;
 
+--insertar despues de haber creado admin porfa
+INSERT INTO users (nickname, firstName, lastName, email, password, role, isActive, DNI, stateId, municipalitiesId, address, zipCode, phoneNumber)
+VALUES (
+    'usuario_prueba',
+    'prueba',
+    'prueba',
+    'prueba@prueba.com',
+    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', -- "password" encriptado
+    '',
+    true,
+    'V-12345678',
+    1,
+    1,
+    'calle de pruebas',
+    '4001',
+    '04121234567'
+);
+
 create table if not exists store (
                                      storeId integer PRIMARY KEY AUTO_INCREMENT,
                                      idOwner integer REFERENCES users(userId),
@@ -73,6 +94,20 @@ create table if not exists store (
                                          ON update CURRENT_TIMESTAMP
 );
 
+--insertar despues de haber creado el usuario admin porfa, porque el id del admin es 1 y el de usuario de prueba es 2, admin no debe tener tienda
+INSERT INTO store (idOwner, storeName, storeDescription, reputation, stateId, municipalitiesId, address, zipCode, phoneNumber)
+VALUES (
+    2,
+    'tienda de prueba',
+    'La mejor tienda de pruebas en Maracaibo',
+    5.0,
+    1,
+    1,
+    'C.C. Sambil, Nivel Feria',
+    '4002',
+    '02617000000'
+);
+
 create table if not EXISTS products (
                                         idProduct integer Primary Key AUTO_INCREMENT,
                                         productName varchar(50),
@@ -87,6 +122,20 @@ create table if not EXISTS products (
                                         createAt timestamp DEFAULT CURRENT_TIMESTAMP,
                                         modifiedAt timestamp DEFAULT CURRENT_TIMESTAMP
                                             ON update CURRENT_TIMESTAMP
+);
+
+--producto de prueba
+INSERT INTO products (productName, productDescription, brand, price, idStore, idProductQuality, stock, sellCount, SKU)
+VALUES (
+    'producto de prueba',
+    'es de prueba',
+    'prueba',
+    850.99,
+    1,
+    1,
+    15,
+    0,
+    'PRU-EBA-001'
 );
 
 create table if not EXISTS shoppingCart (

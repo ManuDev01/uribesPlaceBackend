@@ -5,17 +5,18 @@ info:
 
 http:
   method: POST
-  url: http://127.0.0.1:8000/api/products
+  url: http://127.0.0.1:8000/api/products/create
   body:
     type: json
     data: |-
-      {"productName" : "marihuana",
-       "productDescription" : "cannabis rico para volar",
-       "brand" : "urihuana",
+      {"productName" : "otra prueba",
+       "productDescription" : "pruebita 2",
+       "brand" : "prueba",
+       "price" : 100.00,
        "idStore" : 1,
        "idProductQuality" : 1,
-       "stock" : 5000
-       "SKU" : "wiehf"
+       "stock" : 5000,
+       "SKU" : "PRU-EBA-002"
       }
   auth: inherit
 

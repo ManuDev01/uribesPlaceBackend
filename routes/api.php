@@ -22,7 +22,7 @@ Route::post('users/registerUser', [UserController::class, 'registerUser']);
 
 # ! Rutas Products
 Route::get('products/getAllProducts', [ProductController::class, 'getAll']);
-Route::post('/products', [ProductController::class, 'store']);
+Route::post('/products/create', [ProductController::class, 'store']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::put('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
