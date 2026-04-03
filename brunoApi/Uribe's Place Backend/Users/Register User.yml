@@ -13,8 +13,7 @@ http:
           "userName": "admin",
           "firstName": "admin",
           "userEmail": "admin@admin.com",
-          "userPassword": "admin",
-          "dni": "123456789"
+          "userPassword": "1234567890"
       }
   auth: inherit
 
