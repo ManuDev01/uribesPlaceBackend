@@ -32,7 +32,7 @@ class JwtService {
         try {
             $decode = JWT::decode($token, new Key($this->key, $this->algorithm));
 
-            return (array) $decoded -> data;
+            return (array) $decode -> data;
         } catch(Exception $e) {
             return null;
         }
