@@ -59,8 +59,9 @@ Create table if not EXISTS users(
 alter table users add column password varchar(255) not null after email;
 alter table users add column role varchar(20) not null default 'user' after password;
 alter table users add column isActive boolean default true after role;
+alter table users add column ImageUrl varchar(255) after modifiedAt;
 
---insertar despues de haber creado admin porfa
+--usuario de prueba
 INSERT INTO users (nickname, firstName, lastName, email, password, role, isActive, DNI, stateId, municipalitiesId, address, zipCode, phoneNumber)
 VALUES (
     'usuario_prueba',
@@ -68,7 +69,7 @@ VALUES (
     'prueba',
     'prueba@prueba.com',
     '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', -- "password" encriptado
-    '',
+    'user',
     true,
     'V-12345678',
     1,
@@ -94,10 +95,12 @@ create table if not exists store (
                                          ON update CURRENT_TIMESTAMP
 );
 
---insertar despues de haber creado el usuario admin porfa, porque el id del admin es 1 y el de usuario de prueba es 2, admin no debe tener tienda
+alter table store add column ImageUrl varchar(255) after modifiedAt;
+
+--tienda de prueba
 INSERT INTO store (idOwner, storeName, storeDescription, reputation, stateId, municipalitiesId, address, zipCode, phoneNumber)
 VALUES (
-    2,
+    1,
     'tienda de prueba',
     'La mejor tienda de pruebas en Maracaibo',
     5.0,
@@ -138,6 +141,15 @@ VALUES (
     'PRU-EBA-001'
 );
 
+CREATE TABLE IF NOT EXISTS product_images (
+    idImage INTEGER PRIMARY KEY AUTO_INCREMENT,
+    idProduct INTEGER NOT NULL,
+    imageUrl VARCHAR(255) NOT NULL,
+    isPrimary BOOLEAN DEFAULT FALSE,
+    createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- El CASCADE evita que queden fotos "huérfanas" en la BD
+    FOREIGN KEY (idProduct) REFERENCES products(idProduct) ON DELETE CASCADE
+);
 create table if not EXISTS shoppingCart (
                                             cartId integer Primary Key AUTO_INCREMENT,
                                             productId integer REFERENCES products(idProduct),

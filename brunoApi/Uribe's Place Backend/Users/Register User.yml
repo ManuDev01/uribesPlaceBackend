@@ -10,8 +10,8 @@ http:
     type: json
     data: |-
       {
-          "userName": "admin",
-          "firstName": "admin",
+          "userName": "URIBE2DO",
+          "firstName": "Santiago",
           "userEmail": "admin@admin.com",
           "userPassword": "admin",
           "dni": "123456789"

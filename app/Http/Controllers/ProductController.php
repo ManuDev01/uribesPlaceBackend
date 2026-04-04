@@ -19,8 +19,14 @@ class ProductController extends Controller {
     }
 
     public function store(Request $request){
-        $this->products->create($request->all());
-        return response()->json(['data' => 'Product created successfully'], 201);
+        // Capturamos todo el cuerpo del JSON
+        $data = $request->all();
+        // Extraemos el array de strings base64
+        $images = $request->input('images', []);
+
+        $this->products->create($data, $images);
+
+        return response()->json(['data' => 'Product and Base64 images created successfully'], 201);
     }
 
     public function show($id){
