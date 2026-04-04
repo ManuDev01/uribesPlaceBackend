@@ -13,8 +13,16 @@ class Product extends Model
     protected $primaryKey = 'idProduct';
 
     protected $fillable = [
-        'productName', 'productDescription', 'brand', 'price',
-        'idStore', 'idProductQuality', 'stock', 'SKU'
+        'productName',
+        'productDescription',
+        'brand',
+        'price',
+        'idStore',
+        'idProductQuality',
+        'stock',
+        'sellCount',
+        'SKU',
+        'isActive'
     ];
 
     const CREATED_AT = 'createAt';

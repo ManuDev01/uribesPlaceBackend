@@ -127,6 +127,8 @@ create table if not EXISTS products (
                                             ON update CURRENT_TIMESTAMP
 );
 
+ALTER TABLE products ADD COLUMN isActive BOOLEAN DEFAULT TRUE AFTER SKU;
+
 --producto de prueba
 INSERT INTO products (productName, productDescription, brand, price, idStore, idProductQuality, stock, sellCount, SKU)
 VALUES (
@@ -150,6 +152,9 @@ CREATE TABLE IF NOT EXISTS product_images (
     -- El CASCADE evita que queden fotos "huérfanas" en la BD
     FOREIGN KEY (idProduct) REFERENCES products(idProduct) ON DELETE CASCADE
 );
+
+ALTER TABLE product_images ADD COLUMN isActive BOOLEAN DEFAULT TRUE AFTER imageUrl;
+
 create table if not EXISTS shoppingCart (
                                             cartId integer Primary Key AUTO_INCREMENT,
                                             productId integer REFERENCES products(idProduct),

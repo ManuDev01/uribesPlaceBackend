@@ -22,10 +22,10 @@ Route::post('users/registerUser', [UserController::class, 'registerUser']);
 
 # ! Rutas Products
 Route::get('products/getAllProducts', [ProductController::class, 'getAll']);
-Route::post('/products/create', [ProductController::class, 'store']);
-Route::get('/products/{id}', [ProductController::class, 'show']);
-Route::put('/products/{id}', [ProductController::class, 'update']);
-Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+Route::post('products/create', [ProductController::class, 'store']);
+Route::get('products/show/{id}', [ProductController::class, 'show']);
+Route::patch('products/update/{id}', [ProductController::class, 'update']);
+Route::patch('products/destroy/{id}', [ProductController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

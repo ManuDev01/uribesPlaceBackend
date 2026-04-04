@@ -10,10 +10,9 @@ class ProductImage extends Model
     protected $primaryKey = 'idImage';
     public $timestamps = false;
 
-    protected $fillable = ['idProduct', 'imageUrl', 'isPrimary'];
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'idProduct');
-    }
+    protected $fillable = [
+        'idProduct',
+        'imageUrl',
+        'isActive' // Agregado para Soft Delete
+    ];
 }
