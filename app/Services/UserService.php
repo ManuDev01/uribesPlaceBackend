@@ -51,8 +51,32 @@
         public function updateUser($userData)
         {
             $userId = $userData['userId'];
+            $nickname = $userData['userName'];
+            $firstName = $userData['firstName'];
+            $lastName = $userData['lastName'];
+            $email = $userData['email'];
+            $DNI = $userData['DNI'];
+            $stateId = $userData['stateId'];
+            $address = $userData['address'];
+            $municipalitiesId = $userData['municipalitiesId'];
+            $zipCode = $userData['zipCode'];
+            $phoneNumber = $userData['phoneNumber'];
+            $imageUrl = $userData['imageUrl'];
 
-            DB::update("UPDATE users set ? where userId = ?", [$userData, $userId]);
+            DB::update("UPDATE users 
+            set nickname = ?,
+            firstName = ?,
+            lastName = ?,
+            email = ?,
+            DNI = ?,
+            stateId = ?,
+            municipalitiesId = ?,
+            address = ?,
+            zipCode = ?,
+            phoneNumber = ?,
+            ImageUrl = ?
+            where userId = ?", [$nickname, $firstName, $lastName, $email,
+                $DNI, $stateId, $municipalitiesId,$address, $zipCode, $phoneNumber, $imageUrl, $userId]);
             return true;
         }
 

@@ -11,10 +11,16 @@ http:
     data: |-
       {
         "userId": 2,
+            "userName": "URIBE2DO",
+          "firstName": "Santiago",
+          "lastName": "Hernandez",
+          "email": "admin@admin.com",
+          "userPassword": "admin",
+          "DNI": "123456789",
         "stateId": 1,
         "municipalitiesId": 1,
         "address": "Por el cuji o algo asi xd",
-        "zipcode": "4001",
+        "zipCode": "4001",
         "phoneNumber": "123411231",
         "imageUrl": "No Posee"
       }
