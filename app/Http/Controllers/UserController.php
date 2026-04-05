@@ -82,4 +82,14 @@ class UserController extends Controller
     public function getTiendasSeguidas($userId){
         return response()->json($this->users->getTiendasSeguidas($userId), 200);
     }
+
+    #[Get('/estados')]
+    public function getEstados(){
+        return response()->json($this->users->getEstados(), 200);
+    }
+
+    #[Get('/municipios/{idState}')]
+    public function getMunicipios($idState){
+        return response()->json($this->users->getMunicipios($idState), 200);
+    }
 }

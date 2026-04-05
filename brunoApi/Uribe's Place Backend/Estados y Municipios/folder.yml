@@ -1,0 +1,7 @@
+info:
+  name: Estados y Municipios
+  type: folder
+  seq: 3
+
+request:
+  auth: inherit

@@ -95,4 +95,15 @@ join users u on u.userId = sf.userId
 where u.userId = 1 and s.storeIsActive = ?", [$userId]);
         }
 
+        public function getEstados(){
+            return DB::select("Select * from state");
+        }
+
+        public function getMunicipios($idState){
+            return DB::select("select m.municipalitiesId, m.municipalityName 
+            from municipalities m 
+            join state s on m.stateId = s.stateId 
+            where s.stateId = ?", [$idState]);
+        }
+
     }
