@@ -77,4 +77,9 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
+
+    #[Get('/tiendasSeguidas/{userId}')]
+    public function getTiendasSeguidas($userId){
+        return response()->json($this->users->getTiendasSeguidas($userId), 200);
+    }
 }

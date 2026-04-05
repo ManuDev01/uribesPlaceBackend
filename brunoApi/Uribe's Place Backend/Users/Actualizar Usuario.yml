@@ -1,0 +1,27 @@
+info:
+  name: Actualizar Usuario
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: http://127.0.0.1:8000/users/updateUser
+  body:
+    type: json
+    data: |-
+      {
+        "userId": 2,
+        "stateId": 1,
+        "municipalitiesId": 1,
+        "address": "Por el cuji o algo asi xd",
+        "zipcode": "4001",
+        "phoneNumber": "123411231",
+        "imageUrl": "No Posee"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

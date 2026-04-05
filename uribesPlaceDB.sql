@@ -61,7 +61,7 @@ alter table users add column role varchar(20) not null default 'user' after pass
 alter table users add column isActive boolean default true after role;
 alter table users add column ImageUrl varchar(255) after modifiedAt;
 
---usuario de prueba
+
 INSERT INTO users (nickname, firstName, lastName, email, password, role, isActive, DNI, stateId, municipalitiesId, address, zipCode, phoneNumber)
 VALUES (
     'usuario_prueba',
@@ -96,13 +96,15 @@ create table if not exists store (
 );
 
 alter table store add column ImageUrl varchar(255) after modifiedAt;
+alter table store add column storeIsActive boolean default true after createAt;
+alter table store add column category integer References category(categoryId) after reputation;
 
---tienda de prueba
-INSERT INTO store (idOwner, storeName, storeDescription, reputation, stateId, municipalitiesId, address, zipCode, phoneNumber)
+INSERT INTO store (idOwner, storeName, storeDescription, category,reputation, stateId, municipalitiesId, address, zipCode, phoneNumber)
 VALUES (
     1,
     'tienda de prueba',
     'La mejor tienda de pruebas en Maracaibo',
+    1,
     5.0,
     1,
     1,
@@ -129,7 +131,6 @@ create table if not EXISTS products (
 
 ALTER TABLE products ADD COLUMN isActive BOOLEAN DEFAULT TRUE AFTER SKU;
 
---producto de prueba
 INSERT INTO products (productName, productDescription, brand, price, idStore, idProductQuality, stock, sellCount, SKU)
 VALUES (
     'producto de prueba',
@@ -150,7 +151,6 @@ CREATE TABLE IF NOT EXISTS product_images (
     imageUrl VARCHAR(255) NOT NULL,
     isPrimary BOOLEAN DEFAULT FALSE,
     createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    -- El CASCADE evita que queden fotos "huérfanas" en la BD
     FOREIGN KEY (idProduct) REFERENCES products(idProduct) ON DELETE CASCADE
 );
 
@@ -197,3 +197,8 @@ create table if not EXISTS delivery (
                                         deliveredAt timestamp DEFAULT CURRENT_TIMESTAMP
                                             on update CURRENT_TIMESTAMP
 );
+
+
+insert into storeFollow values(1,1);
+
+insert into category (categoryName) values('Electrodomesticos');

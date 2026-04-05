@@ -51,11 +51,6 @@
         public function updateUser($userData)
         {
             $userId = $userData['userId'];
-            $nickname = $userData['userName'];
-            $firstName = $userData['firstName'];
-            $lastName = $userData['lastName'];
-            $email = $userData['userEmail'];
-            $dni = $userData['dni'];
 
             DB::update("UPDATE users set ? where userId = ?", [$userData, $userId]);
             return true;
@@ -65,6 +60,15 @@
             DB::update("UPDATE users set isActive = 0 WHERE userId = ?", [$id]);
 
             return true;
+        }
+
+        public function getTiendasSeguidas($userId){
+            return DB::select("select s.storeId, s.storeName, c.categoryName, s.storeDescription 
+from store s 
+join category c on s.category = c.idCategory 
+join storefollow sf on s.storeId = sf.idStore 
+join users u on u.userId = sf.userId 
+where u.userId = 1 and s.storeIsActive = ?", [$userId]);
         }
 
     }

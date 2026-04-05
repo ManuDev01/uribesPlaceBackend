@@ -5,13 +5,14 @@ info:
 
 http:
   method: POST
-  url: http://127.0.0.1:8000/api/users/registerUser
+  url: http://127.0.0.1:8000/users/registerUser
   body:
     type: json
     data: |-
       {
           "userName": "URIBE2DO",
           "firstName": "Santiago",
+          "lastName": "Hernandez",
           "userEmail": "admin@admin.com",
           "userPassword": "admin",
           "dni": "123456789"

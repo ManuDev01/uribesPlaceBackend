@@ -61,7 +61,7 @@ alter table users add column role varchar(20) not null default 'user' after pass
 alter table users add column isActive boolean default true after role;
 alter table users add column ImageUrl varchar(255) after modifiedAt;
 
---usuario de prueba
+
 INSERT INTO users (nickname, firstName, lastName, email, password, role, isActive, DNI, stateId, municipalitiesId, address, zipCode, phoneNumber)
 VALUES (
     'usuario_prueba',
