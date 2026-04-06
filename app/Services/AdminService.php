@@ -20,7 +20,15 @@
         }
 
         public function getCantidadTiendas(){
-            return DB::select("SELECT COUNT(s.storeId) from stores s where storeIsActive = true");
+            return DB::select("SELECT COUNT(s.storeId) as totalTiendas from stores s where storeIsActive = true");
+        }
+
+        public function getCantidadTiendasInactivas(){
+            return DB::select("Select COUNT(s.storeId) as totalTiendasInactivas from store where storeIsActive = false");
+        }
+
+        public function getTotalUsuarios(){
+            return DB::select("SELECT count(u.userId) as totalUsuarios from users u where isActive = 1");
         }
 
         
