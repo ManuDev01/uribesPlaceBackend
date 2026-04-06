@@ -113,6 +113,18 @@ VALUES (
     '02617000000'
 );
 
+CREATE TABLE IF NOT EXISTS store_ratings (
+                                            idRating INTEGER PRIMARY KEY AUTO_INCREMENT,
+                                            idStore INTEGER NOT NULL,
+                                            idUser INTEGER NOT NULL,
+                                            rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+                                            createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                            modifiedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                            FOREIGN KEY (idStore) REFERENCES store(storeId) ON DELETE CASCADE,
+                                            FOREIGN KEY (idUser) REFERENCES users(userId) ON DELETE CASCADE,
+                                            UNIQUE KEY (idStore, idUser) 
+);
+
 create table if not EXISTS products (
                                         idProduct integer Primary Key AUTO_INCREMENT,
                                         productName varchar(50),

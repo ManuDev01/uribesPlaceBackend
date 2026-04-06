@@ -43,6 +43,24 @@ class StoreController extends Controller
         return response()->json(['message' => 'Store updated successfully'], 200);
     }
 
+    #[Post('/rate')]
+    public function rate(Request $request)
+    {
+        $request->validate([
+            'idStore' => 'required|integer',
+            'idUser' => 'required|integer',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        $this->stores->rateStore(
+            $request->idStore,
+            $request->idUser,
+            $request->rating
+        );
+
+        return response()->json(['message' => 'Rating updated successfully'], 200);
+    }
+
     #[Patch('/deactivate/{id}')]
     public function destroy($id) {
         $this->stores->deactivate($id);

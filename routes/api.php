@@ -33,6 +33,7 @@ Route::get('products/getAllProducts', [ProductController::class, 'getAll']);
 Route::post('products/create', [ProductController::class, 'store']);
 Route::get('products/show/{id}', [ProductController::class, 'show']);
 Route::patch('products/update/{id}', [ProductController::class, 'update']);
+Route::post('stores/rate', [StoreController::class, 'rate']);
 Route::patch('products/destroy/{id}', [ProductController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

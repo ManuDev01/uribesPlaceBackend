@@ -55,6 +55,28 @@ class StoreService {
         return DB::update("UPDATE store SET $fields WHERE storeId = ?", $values);
     }
 
+    public function rateStore($storeId, $userId, $ratingValue) {
+    DB::statement("
+        INSERT INTO store_ratings (idStore, idUser, rating)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE rating = VALUES(rating), modifiedAt = NOW()
+    ", [$storeId, $userId, $ratingValue]);
+
+    $averageResult = DB::select("
+        SELECT AVG(rating) as average
+        FROM store_ratings
+        WHERE idStore = ?
+    ", [$storeId]);
+
+    $newAverage = $averageResult[0]->average ?? 0;
+
+    return DB::update("
+        UPDATE store
+        SET reputation = ?
+        WHERE storeId = ?
+    ", [$newAverage, $storeId]);
+}
+
     public function deactivate($id) {
         return DB::update("UPDATE store SET storeIsActive = 0 WHERE storeId = ?", [$id]);
     }
