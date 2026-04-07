@@ -31,8 +31,6 @@ use Spatie\RouteAttributes\Attributes\Prefix;
             return response()->json($this->adminService->getCantidadTiendasInactivas(), 200);
         }
 
-        # TODO: Crear endpoint para obtener los usuarios que se registraron nuevos con el create_at
-
         #[Get('/totalUsuarios')]
         function getTotalUsuarios(){
             return response()->json($this->adminService->getTotalUsuarios(), 200);
