@@ -222,3 +222,9 @@ create table if not exists activityLog(
     activityDescription varchar(255),
     createdAt timestamp default CURRENT_TIMESTAMP
     );
+
+create table if not exists visitaSitio(
+    idVisitante integer primary key AUTO_INCREMENT,
+    horaEntrada timestamp default CURRENT_TIMESTAMP,
+    tiempoEnSitio varchar(25)
+);

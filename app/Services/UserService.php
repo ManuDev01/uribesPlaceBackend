@@ -118,4 +118,15 @@ where u.userId = 1 and s.storeIsActive = ?", [$userId]);
             where s.stateId = ?", [$idState]);
         }
 
+        # TODO: Ver como se hace un insert sin insertar nada
+        // ya que en teoria deberia de insertarse los datos
+        // automaticamente
+        public function visitaSitio(){
+            return DB::insert("INSERT INTO visitaSitio()");
+        }
+
+        public function salidaSitio($idVisitante, $tiempoEnSitio){
+            return DB::update("UPDATE visitaSitio set tiempoEnSitio = ? where idVisitante = ?", [$idVisitante, $tiempoEnSitio]);
+        }
+
     }

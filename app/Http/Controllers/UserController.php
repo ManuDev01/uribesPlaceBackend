@@ -92,4 +92,15 @@ class UserController extends Controller
     public function getMunicipios($idState){
         return response()->json($this->users->getMunicipios($idState), 200);
     }
+
+    #[Post('/entradaASitio')]
+    public function visitaSitio(){
+        
+    }
+
+    # TODO: Verificar Funcionamiento del Endpoint
+    #[Patch('/tiempoSitio/{idVisitante}/{tiempoEnSitio}')]
+    public function salidaSitio($idVisitante, $tiempoEnSitio){
+        return responsa()->json($this->users->salidaSitio($idVisitante, $tiempoEnSitio));
+    }
 }

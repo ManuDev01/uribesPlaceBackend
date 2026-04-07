@@ -15,10 +15,6 @@
     public $inicioInvierno = "21/12";
     public $finInvierno = "20/03";
 
-        public function listAllAdmins() {
-
-        }
-
         public function getCantidadTiendas(){
             return DB::select("SELECT COUNT(s.storeId) as totalTiendas from store s where storeIsActive = true");
         }
