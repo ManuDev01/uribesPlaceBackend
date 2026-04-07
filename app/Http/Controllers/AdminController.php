@@ -38,7 +38,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 
         #[Get('/usuariosRegistradosHoy')]
         function getUsuariosRegistradosHoy(){
-            return response()->json($this->adminService->getUsuarioRegistradosHoy);
+            return response()->json($this->adminService->getUsuarioRegistradosHoy(), 200);
         }
 
     }
