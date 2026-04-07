@@ -42,7 +42,8 @@
                 // Contraseña correcta
                 unset($user->password); // Por seguridad, no envíes el hash al frontend
 
-                DB::insert("INSERT into activitylog(userId, activityDescription) values((SELECT userId FROM users WHERE email = ?), 'Se logueo al sistema')", [$email]);
+                DB::insert("INSERT into activitylog(userId, activityDescription)
+                            values((SELECT userId FROM users WHERE email = ?), 'Se logueo al sistema')", [$email]);
                 return $user;
             }
 
