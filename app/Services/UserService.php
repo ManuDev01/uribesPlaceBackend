@@ -41,6 +41,8 @@
             if ($user && password_verify($plainPassword, $user->password)) {
                 // Contraseña correcta
                 unset($user->password); // Por seguridad, no envíes el hash al frontend
+
+                DB::insert("INSERT into activitylog(userId, activityDescription) values((SELECT userId FROM users WHERE email = ?), 'Se logueo al sistema')", [$email]);
                 return $user;
             }
 
@@ -63,7 +65,7 @@
             $phoneNumber = $userData['phoneNumber'];
             $imageUrl = $userData['imageUrl'];
 
-            DB::update("UPDATE users 
+            DB::update("UPDATE users
             set nickname = ?,
             firstName = ?,
             lastName = ?,
@@ -87,11 +89,11 @@
         }
 
         public function getTiendasSeguidas($userId){
-            return DB::select("select s.storeId, s.storeName, c.categoryName, s.storeDescription 
-from store s 
-join category c on s.category = c.idCategory 
-join storefollow sf on s.storeId = sf.idStore 
-join users u on u.userId = sf.userId 
+            return DB::select("select s.storeId, s.storeName, c.categoryName, s.storeDescription
+from store s
+join category c on s.category = c.idCategory
+join storefollow sf on s.storeId = sf.idStore
+join users u on u.userId = sf.userId
 where u.userId = 1 and s.storeIsActive = ?", [$userId]);
         }
 
@@ -100,9 +102,9 @@ where u.userId = 1 and s.storeIsActive = ?", [$userId]);
         }
 
         public function getMunicipios($idState){
-            return DB::select("select m.municipalitiesId, m.municipalityName 
-            from municipalities m 
-            join state s on m.stateId = s.stateId 
+            return DB::select("select m.municipalitiesId, m.municipalityName
+            from municipalities m
+            join state s on m.stateId = s.stateId
             where s.stateId = ?", [$idState]);
         }
 

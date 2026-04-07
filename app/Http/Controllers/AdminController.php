@@ -41,4 +41,9 @@ use Spatie\RouteAttributes\Attributes\Prefix;
             return response()->json($this->adminService->getUsuarioRegistradosHoy(), 200);
         }
 
+        #[Get('/activityLog')]
+        function getActivityLog(){
+            return response()->json($this->adminService->activityLog(), 200);
+        }
+
     }

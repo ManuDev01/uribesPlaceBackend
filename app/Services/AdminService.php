@@ -20,11 +20,11 @@
         }
 
         public function getCantidadTiendas(){
-            return DB::select("SELECT COUNT(s.storeId) as totalTiendas from stores s where storeIsActive = true");
+            return DB::select("SELECT COUNT(s.storeId) as totalTiendas from store s where storeIsActive = true");
         }
 
         public function getCantidadTiendasInactivas(){
-            return DB::select("Select COUNT(s.storeId) as totalTiendasInactivas from store where storeIsActive = false");
+            return DB::select("Select COUNT(s.storeId) as totalTiendasInactivas from store s where storeIsActive = false");
         }
 
         public function getTotalUsuarios(){
@@ -32,8 +32,15 @@
         }
 
         public function getUsuarioRegistradosHoy(){
-            DB::select("SELECT count(u.userId) from users where DATE(createAt) = CURDATE() and isActive = 1");
+            return DB::select("SELECT count(u.userId) from users where DATE(createAt) = CURDATE() and isActive = 1");
         }
 
-        
+        public function activityLog(){
+            return DB::select("SELECT CONCAT(u.firstName, ' ', u.lastName) as nombre,
+                        activityDescription,
+                        createdAt
+                        from activitylog al join users u on al.userId = u.userId");
+        }
+
+
     }
