@@ -38,4 +38,9 @@ use Spatie\RouteAttributes\Attributes\Prefix;
             return response()->json($this->adminService->getTotalUsuarios(), 200);
         }
 
+        #[Get('/usuariosRegistradosHoy')]
+        function getUsuariosRegistradosHoy(){
+            return response()->json($this->adminService->getUsuarioRegistradosHoy);
+        }
+
     }
