@@ -214,3 +214,11 @@ create table if not EXISTS delivery (
 insert into storeFollow values(1,1);
 
 insert into category (categoryName) values('Electrodomesticos');
+
+
+create table if not exists activityLog(
+    id integer primary key AUTO_INCREMENT,
+    userId integer References users(userId),
+    activityDescription varchar(255),
+    createdAt timestamp default CURRENT_TIMESTAMP
+    );
