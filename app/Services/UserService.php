@@ -24,6 +24,9 @@
                     VALUES (?, ?, ?, ?, ?)",
                 [$nickname, $firstName, $email, $password, $dni]);
 
+                DB::insert("INSERT into activitylog(activityDescription)
+                            values(CONCAT('Se registro el usuario: ', ?, '. De nombre de usuario: ', ?))", [$firstName, $nickname]);
+
             return [
                 'nickname' => $nickname,
                 'email' => $email
@@ -80,10 +83,16 @@
             ImageUrl = ?
             where userId = ?", [$nickname, $firstName, $lastName, $email,
                 $DNI, $stateId, $municipalitiesId,$address, $zipCode, $phoneNumber, $imageUrl, $userId]);
+
+                            DB::insert("INSERT into activitylog(userId, activityDescription)
+                            values(?, 'Modifico sus datos')", [$userId]);
             return true;
         }
 
         public function delete($id) {
+
+            DB::insert("INSERT into activitylog(userId, activityDescription)
+                            values(?, 'Elimino su cuenta')", [$id]);
             DB::update("UPDATE users set isActive = 0 WHERE userId = ?", [$id]);
 
             return true;
@@ -107,6 +116,17 @@ where u.userId = 1 and s.storeIsActive = ?", [$userId]);
             from municipalities m
             join state s on m.stateId = s.stateId
             where s.stateId = ?", [$idState]);
+        }
+
+        # TODO: Ver como se hace un insert sin insertar nada
+        // ya que en teoria deberia de insertarse los datos
+        // automaticamente
+        public function visitaSitio(){
+            return DB::insert("INSERT INTO visitaSitio()");
+        }
+
+        public function salidaSitio($idVisitante, $tiempoEnSitio){
+            return DB::update("UPDATE visitaSitio set tiempoEnSitio = ? where idVisitante = ?", [$idVisitante, $tiempoEnSitio]);
         }
 
     }

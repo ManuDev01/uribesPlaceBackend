@@ -46,4 +46,9 @@ use Spatie\RouteAttributes\Attributes\Prefix;
             return response()->json($this->adminService->activityLog(), 200);
         }
 
+        #[Get('/tiendasMasVisitadas')]
+        function totalVisitas(){
+            return response()->json($this->adminService->getTotalVisitas(), 200);
+        }
+
     }

@@ -15,10 +15,6 @@
     public $inicioInvierno = "21/12";
     public $finInvierno = "20/03";
 
-        public function listAllAdmins() {
-
-        }
-
         public function getCantidadTiendas(){
             return DB::select("SELECT COUNT(s.storeId) as totalTiendas from store s where storeIsActive = true");
         }
@@ -40,6 +36,13 @@
                         activityDescription,
                         createdAt
                         from activitylog al join users u on al.userId = u.userId");
+        }
+
+        public function getTotalVisitas(){
+            return DB::select("select s.storeName, count(s.storeName) as cantidad 
+                                from store_visits sv 
+                                join store s on sv.idStore = s.storeId 
+                                order by cantidad DESC");
         }
 
 
