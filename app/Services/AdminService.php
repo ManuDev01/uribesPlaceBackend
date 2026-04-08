@@ -38,5 +38,12 @@
                         from activitylog al join users u on al.userId = u.userId");
         }
 
+        public function getTotalVisitas(){
+            return DB::select("select s.storeName, count(s.storeName) as cantidad 
+                                from store_visits sv 
+                                join store s on sv.idStore = s.storeId 
+                                order by cantidad DESC");
+        }
+
 
     }
