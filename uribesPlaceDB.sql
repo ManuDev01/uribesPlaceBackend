@@ -22,6 +22,8 @@ create table if not EXISTS category(
                                        categoryName varchar(50)
 );
 
+INSERT INTO category (categoryName) VALUES ('Farmacia');
+
 create table if not EXISTS subcategory (
                                            subcategoryId integer primary key AUTO_INCREMENT,
                                            categoryId integer REFERENCES category(idCategory),
@@ -122,7 +124,16 @@ CREATE TABLE IF NOT EXISTS store_ratings (
                                             modifiedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                                             FOREIGN KEY (idStore) REFERENCES store(storeId) ON DELETE CASCADE,
                                             FOREIGN KEY (idUser) REFERENCES users(userId) ON DELETE CASCADE,
-                                            UNIQUE KEY (idStore, idUser) 
+                                            UNIQUE KEY (idStore, idUser)
+);
+
+CREATE TABLE IF NOT EXISTS store_visits (
+                                            idVisit INTEGER PRIMARY KEY AUTO_INCREMENT,
+                                            idStore INTEGER NOT NULL,
+                                            idUser INTEGER NULL,
+                                            ipAddress VARCHAR(45),
+                                            visitDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                            FOREIGN KEY (idStore) REFERENCES store(storeId) ON DELETE CASCADE
 );
 
 create table if not EXISTS products (

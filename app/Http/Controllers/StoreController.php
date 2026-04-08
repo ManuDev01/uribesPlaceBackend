@@ -27,8 +27,20 @@ class StoreController extends Controller
 
     #[Post('/create')]
     public function store(Request $request) {
-        $id = $this->stores->create($request->all());
-        return response()->json(['message' => 'Store created successfully', 'storeId' => $id], 201);
+        $user = $request->get('user');
+        if (!$user) {
+            return response()->json(['error' => 'No autorizado. Debe estar logueado.'], 401);
+        }
+
+        try {
+            $id = $this->stores->create($request->all(), $user->userId);
+            return response()->json([
+                'message' => 'Tienda creada exitosamente',
+                'storeId' => $id
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode() ?: 400);
+        }
     }
 
     #[Get('/owner/{idOwner}')]
@@ -59,6 +71,28 @@ class StoreController extends Controller
         );
 
         return response()->json(['message' => 'Rating updated successfully'], 200);
+    }
+
+    #[Post('/visit/{id}')]
+    public function recordVisit(Request $request, $id)
+    {
+        // El idUser puede ser nulo si el visitante no está logueado
+        $userId = $request->input('idUser');
+        $ip = $request->ip();
+
+        $this->stores->registerVisit($id, $userId, $ip);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Visit registered in logs'
+        ], 200);
+    }
+
+    #[Get('/statistics/most-visited')]
+    public function mostVisited()
+    {
+        $stats = $this->stores->getMostVisited(5);
+        return response()->json(['data' => $stats], 200);
     }
 
     #[Patch('/deactivate/{id}')]

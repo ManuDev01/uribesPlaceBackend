@@ -208,3 +208,15 @@ create table if not EXISTS delivery (
                                         deliveredAt timestamp DEFAULT CURRENT_TIMESTAMP
                                             on update CURRENT_TIMESTAMP
 );
+
+INSERT INTO category (categoryName) VALUES ('Farmacia');
+
+
+CREATE TABLE IF NOT EXISTS store_visits (
+                                            idVisit INTEGER PRIMARY KEY AUTO_INCREMENT,
+                                            idStore INTEGER NOT NULL,
+                                            idUser INTEGER NULL,
+                                            ipAddress VARCHAR(45),
+                                            visitDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                            FOREIGN KEY (idStore) REFERENCES store(storeId) ON DELETE CASCADE
+);

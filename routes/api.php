@@ -23,10 +23,16 @@ Route::post('users/registerUser', [UserController::class, 'registerUser']);
 
 # ! Rutas Store
 Route::get('stores/getAllStores', [StoreController::class, 'index']);
-Route::post('stores/create', [StoreController::class, 'store']);
 Route::get('stores/owner/{idOwner}', [StoreController::class, 'showByOwner']);
-Route::patch('stores/update/{id}', [StoreController::class, 'update']);
-Route::patch('stores/deactivate/{id}', [StoreController::class, 'destroy']);
+Route::post('stores/visit/{id}', [StoreController::class, 'recordVisit']);
+Route::get('stores/most-visited', [StoreController::class, 'mostVisited']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('stores/create', [StoreController::class, 'store']);
+    Route::post('stores/rate', [StoreController::class, 'rate']);
+    Route::patch('stores/update/{id}', [StoreController::class, 'update']);
+    Route::patch('stores/deactivate/{id}', [StoreController::class, 'destroy']);
+});
 
 # ! Rutas Products
 Route::get('products/getAllProducts', [ProductController::class, 'getAll']);
