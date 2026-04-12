@@ -42,7 +42,7 @@ class UserController extends Controller
         return response()->json(['data' => $allUsers], 200);
     }
 
-    #[Get('/login')]
+    #[Post('/login')]
     public function login(Request $request)
     {
 
@@ -101,6 +101,6 @@ class UserController extends Controller
     # TODO: Verificar Funcionamiento del Endpoint
     #[Patch('/tiempoSitio/{idVisitante}/{tiempoEnSitio}')]
     public function salidaSitio($idVisitante, $tiempoEnSitio){
-        return responsa()->json($this->users->salidaSitio($idVisitante, $tiempoEnSitio));
+        return response()->json($this->users->salidaSitio($idVisitante, $tiempoEnSitio));
     }
 }
