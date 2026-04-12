@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
+use App\Services\JwtService;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::get('stores/owner/{idOwner}', [StoreController::class, 'showByOwner']);
 Route::post('stores/visit/{id}', [StoreController::class, 'recordVisit']);
 Route::get('stores/most-visited', [StoreController::class, 'mostVisited']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth.jwt'])->group(function () {
     Route::post('stores/create', [StoreController::class, 'store']);
     Route::post('stores/rate', [StoreController::class, 'rate']);
     Route::patch('stores/update/{id}', [StoreController::class, 'update']);

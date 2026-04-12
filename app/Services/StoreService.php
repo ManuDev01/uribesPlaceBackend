@@ -13,38 +13,38 @@ class StoreService {
     }
 
     public function create($data, $userId) {
-    $existingStore = DB::select("SELECT storeId FROM store WHERE idOwner = ? AND storeIsActive = 1", [$userId]);
+        $existingStore = DB::select("SELECT storeId FROM store WHERE idOwner = ? AND storeIsActive = 1", [$userId]);
 
-    if (!empty($existingStore)) {
-        throw new \Exception("El usuario ya posee una tienda activa.", 409);
+        if (!empty($existingStore)) {
+            throw new \Exception("El usuario ya posee una tienda activa.", 409);
+        }
+
+        $imageUrl = null;
+        if (isset($data['imageUrl']) && !empty($data['imageUrl'])) {
+            $image_service_str = substr($data['imageUrl'], strpos($data['imageUrl'], ",") + 1);
+            $image_data = base64_decode($image_service_str);
+            $fileName = 'store_' . time() . '_' . \Illuminate\Support\Str::random(5) . '.png';
+            $imageUrl = 'stores/' . $fileName;
+            \Illuminate\Support\Facades\Storage::disk('public')->put($imageUrl, $image_data);
+        }
+
+        DB::insert("INSERT INTO store
+            (idOwner, storeName, storeDescription, stateId, municipalitiesId, address, zipCode, phoneNumber, storeIsActive, ImageUrl)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)",
+            [
+                $userId,
+                $data['storeName'],
+                $data['storeDescription'],
+                $data['stateId'],
+                $data['municipalitiesId'],
+                $data['address'],
+                $data['zipCode'],
+                $data['phoneNumber'],
+                $imageUrl
+            ]);
+
+        return DB::getPdo()->lastInsertId();
     }
-
-    $imageUrl = null;
-    if (isset($data['imageUrl']) && !empty($data['imageUrl'])) {
-        $image_service_str = substr($data['imageUrl'], strpos($data['imageUrl'], ",") + 1);
-        $image_data = base64_decode($image_service_str);
-        $fileName = 'store_' . time() . '_' . \Illuminate\Support\Str::random(5) . '.png';
-        $imageUrl = 'stores/' . $fileName;
-        \Illuminate\Support\Facades\Storage::disk('public')->put($imageUrl, $image_data);
-    }
-
-    DB::insert("INSERT INTO store
-        (idOwner, storeName, storeDescription, stateId, municipalitiesId, address, zipCode, phoneNumber, storeIsActive, ImageUrl)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)",
-        [
-            $userId,
-            $data['storeName'],
-            $data['storeDescription'],
-            $data['stateId'],
-            $data['municipalitiesId'],
-            $data['address'],
-            $data['zipCode'],
-            $data['phoneNumber'],
-            $imageUrl
-        ]);
-
-    return DB::getPdo()->lastInsertId();
-}
 
     public function findByOwner($idOwner) {
         return DB::select("SELECT * FROM store WHERE idOwner = ? AND storeIsActive = 1", [$idOwner]);
@@ -66,45 +66,43 @@ class StoreService {
     }
 
     public function rateStore($storeId, $userId, $ratingValue) {
-    DB::statement("
-        INSERT INTO store_ratings (idStore, idUser, rating)
-        VALUES (?, ?, ?)
-        ON DUPLICATE KEY UPDATE rating = VALUES(rating), modifiedAt = NOW()
-    ", [$storeId, $userId, $ratingValue]);
+        DB::statement("
+            INSERT INTO store_ratings (idStore, idUser, rating)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE rating = VALUES(rating), modifiedAt = NOW()
+        ", [$storeId, $userId, $ratingValue]);
 
-    $averageResult = DB::select("
-        SELECT AVG(rating) as average
-        FROM store_ratings
-        WHERE idStore = ?
-    ", [$storeId]);
+        $averageResult = DB::select("
+            SELECT AVG(rating) as average
+            FROM store_ratings
+            WHERE idStore = ?
+        ", [$storeId]);
 
-    $newAverage = $averageResult[0]->average ?? 0;
+        $newAverage = $averageResult[0]->average ?? 0;
 
-    return DB::update("
-        UPDATE store
-        SET reputation = ?
-        WHERE storeId = ?
-    ", [$newAverage, $storeId]);
-}
+        return DB::update("
+            UPDATE store
+            SET reputation = ?
+            WHERE storeId = ?
+        ", [$newAverage, $storeId]);
+    }
 
-public function registerVisit($storeId, $userId = null, $ip = null) {
-    // Insertamos el registro de la visita individual
-    return DB::insert("INSERT INTO store_visits (idStore, idUser, ipAddress) VALUES (?, ?, ?)",
-                      [$storeId, $userId, $ip]);
-}
+    public function registerVisit($storeId, $userId = null, $ip = null) {
+        return DB::insert("INSERT INTO store_visits (idStore, idUser, ipAddress) VALUES (?, ?, ?)",
+                          [$storeId, $userId, $ip]);
+    }
 
-public function getMostVisited($limit = 5) {
-    // Hacemos un conteo dinámico basado en la tabla de visitas
-    return DB::select("
-        SELECT s.storeName, COUNT(v.idVisit) as total_visits
-        FROM store s
-        LEFT JOIN store_visits v ON s.storeId = v.idStore
-        WHERE s.storeIsActive = 1
-        GROUP BY s.storeId, s.storeName
-        ORDER BY total_visits DESC
-        LIMIT ?
-    ", [$limit]);
-}
+    public function getMostVisited($limit = 5) {
+        return DB::select("
+            SELECT s.storeName, COUNT(v.idVisit) as total_visits
+            FROM store s
+            LEFT JOIN store_visits v ON s.storeId = v.idStore
+            WHERE s.storeIsActive = 1
+            GROUP BY s.storeId, s.storeName
+            ORDER BY total_visits DESC
+            LIMIT ?
+        ", [$limit]);
+    }
 
     public function deactivate($id) {
         return DB::update("UPDATE store SET storeIsActive = 0 WHERE storeId = ?", [$id]);

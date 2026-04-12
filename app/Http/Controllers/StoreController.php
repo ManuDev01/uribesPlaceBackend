@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\StoreService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth; // Añadido
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Patch;
@@ -27,20 +28,26 @@ class StoreController extends Controller
 
     #[Post('/create')]
     public function store(Request $request) {
-        $user = $request->get('user');
+        // Obtenemos el usuario autenticado desde el token JWT
+        $user = Auth::user();
+
         if (!$user) {
             return response()->json(['error' => 'No autorizado. Debe estar logueado.'], 401);
         }
 
         try {
+            // Usamos userId que es como lo tienes en tu tabla de usuarios
             $id = $this->stores->create($request->all(), $user->userId);
             return response()->json([
                 'message' => 'Tienda creada exitosamente',
                 'storeId' => $id
             ], 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode() ?: 400);
-        }
+        } catch (\Throwable $e) { // <-- IMPORTANTE: \Throwable captura el error de tipo que te sale
+        return response()->json([
+            'error' => 'Error en la operación',
+            'detalle' => $e->getMessage() // Aquí verás el error REAL de la BD
+        ], 500); // <-- Número entero fijo para que no falle
+    }
     }
 
     #[Get('/owner/{idOwner}')]
@@ -60,13 +67,15 @@ class StoreController extends Controller
     {
         $request->validate([
             'idStore' => 'required|integer',
-            'idUser' => 'required|integer',
             'rating' => 'required|integer|min:1|max:5',
         ]);
 
+        // Obtenemos el usuario del token para calificar
+        $userId = Auth::id();
+
         $this->stores->rateStore(
             $request->idStore,
-            $request->idUser,
+            $userId,
             $request->rating
         );
 
@@ -76,8 +85,9 @@ class StoreController extends Controller
     #[Post('/visit/{id}')]
     public function recordVisit(Request $request, $id)
     {
-        // El idUser puede ser nulo si el visitante no está logueado
-        $userId = $request->input('idUser');
+        // El idUser puede ser nulo si el visitante no está logueado,
+        // pero si hay token, lo capturamos automáticamente
+        $userId = Auth::id();
         $ip = $request->ip();
 
         $this->stores->registerVisit($id, $userId, $ip);
