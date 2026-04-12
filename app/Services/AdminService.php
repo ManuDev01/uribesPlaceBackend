@@ -28,7 +28,7 @@
         }
 
         public function getUsuarioRegistradosHoy(){
-            return DB::select("SELECT count(u.userId) from users where DATE(createAt) = CURDATE() and isActive = 1");
+            return DB::select("SELECT count(u.userId) as registradosHoy from users u where DATE(createAt) = CURDATE() and isActive = 1");
         }
 
         public function activityLog(){

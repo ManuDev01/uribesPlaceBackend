@@ -10,12 +10,12 @@ http:
     type: json
     data: |-
       {
-          "userName": "URIBE2DO",
-          "firstName": "Santiago",
-          "lastName": "Hernandez",
-          "userEmail": "admin@admin.com",
-          "userPassword": "admin",
-          "dni": "123456789"
+          "userName": "Manudev01",
+          "firstName": "Manuel",
+          "lastName": "Diaz",
+          "userEmail": "manuel@gmail.com",
+          "userPassword": "31240368",
+          "dni": "31240368"
       }
   auth: inherit
 
