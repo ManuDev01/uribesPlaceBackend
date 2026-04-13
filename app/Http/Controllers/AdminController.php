@@ -51,4 +51,9 @@ use Spatie\RouteAttributes\Attributes\Prefix;
             return response()->json($this->adminService->getTotalVisitas(), 200);
         }
 
+        #[Get('/activityByHour')]
+        function getActivityByHour(){
+            return response()->json($this->adminService->getActivityByHour(), 200);
+        }
+
     }

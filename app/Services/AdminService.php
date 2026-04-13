@@ -31,12 +31,15 @@
             return DB::select("SELECT count(u.userId) as registradosHoy from users u where DATE(createAt) = CURDATE() and isActive = 1");
         }
 
-        public function activityLog(){
-            return DB::select("SELECT CONCAT(u.firstName, ' ', u.lastName) as nombre,
-                        activityDescription,
-                        createdAt
-                        from activitylog al join users u on al.userId = u.userId");
-        }
+public function activityLog() {
+    return DB::select("SELECT 
+            CONCAT(u.firstName, ' ', u.lastName) as nombre,
+            al.activityDescription,
+            al.createdAt
+        FROM activitylog al 
+        LEFT JOIN users u ON al.userId = u.userId
+        ORDER BY al.createdAt DESC");
+}
 
         public function getTotalVisitas(){
             return DB::select("select s.storeName, count(s.storeName) as cantidad 
@@ -44,6 +47,15 @@
                                 join store s on sv.idStore = s.storeId 
                                 order by cantidad DESC");
         }
+
+        public function getActivityByHour() {
+    return DB::select("SELECT 
+            HOUR(createdAt) as hora, 
+            COUNT(*) as total_visitas
+        FROM activitylog
+        GROUP BY HOUR(createdAt)
+        ORDER BY hora ASC");
+}
 
 
     }
