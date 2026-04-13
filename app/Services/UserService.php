@@ -10,7 +10,11 @@ class UserService
 
     public function listAll()
     {
-        return DB::select("SELECT * FROM users");
+        return DB::select("SELECT userId, nickname, firstName, lastName, email, u.role, u.isActive, u.DNI, s.stateName, m.municipalityName, u.address, u.zipCode, u.phoneNumber, u.ImageUrl
+                            FROM users u
+                            join state s on u.stateId = s.stateId
+                            join municipalities m on u.municipalitiesId = m.municipalitiesId
+                            where u.isActive = 1");
     }
 
     public function register($userData)
