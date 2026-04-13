@@ -39,7 +39,7 @@ class UserController extends Controller
     {
         $allUsers = $this->users->listAll();
 
-        return response()->json(['data' => $allUsers], 200);
+        return response()->json($allUsers, 200);
     }
 
     #[Post('/login')]

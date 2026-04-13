@@ -12,9 +12,8 @@ class UserService
     {
         return DB::select("SELECT userId, nickname, firstName, lastName, email, u.role, u.isActive, u.DNI, s.stateName, m.municipalityName, u.address, u.zipCode, u.phoneNumber, u.ImageUrl
                             FROM users u
-                            join state s on u.stateId = s.stateId
-                            join municipalities m on u.municipalitiesId = m.municipalitiesId
-                            where u.isActive = 1");
+                            left join state s on u.stateId = s.stateId
+                            left join municipalities m on u.municipalitiesId = m.municipalitiesId");
     }
 
     public function register($userData)
