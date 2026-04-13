@@ -57,5 +57,39 @@ public function activityLog() {
         ORDER BY hora ASC");
 }
 
+public function cambiarRolUsuario($userId, $nuevoRol) {
+    // Validar que el nuevo rol sea válido (opcional)
+    return DB::update("UPDATE users SET role = ? WHERE userId = ?", [$nuevoRol, $userId]);
+}
+
+public function searchUser($searchTerm) 
+{
+    // Preparamos el término para que busque coincidencias parciales
+    $queryTerm = '%' . $searchTerm . '%';
+
+    return DB::select("SELECT 
+            u.userId, 
+            u.nickname, 
+            u.firstName, 
+            u.lastName, 
+            u.email, 
+            u.role, 
+            u.isActive, 
+            u.DNI, 
+            s.stateName, 
+            m.municipalityName, 
+            u.address, 
+            u.zipCode, 
+            u.phoneNumber, 
+            u.ImageUrl
+        FROM users u
+        LEFT JOIN state s ON u.stateId = s.stateId
+        LEFT JOIN municipalities m ON u.municipalitiesId = m.municipalitiesId
+        WHERE u.nickname LIKE ? 
+           OR u.firstName LIKE ? 
+           OR u.lastName LIKE ? 
+           OR u.email LIKE ?", 
+        [$queryTerm, $queryTerm, $queryTerm, $queryTerm]);
+}
 
     }
