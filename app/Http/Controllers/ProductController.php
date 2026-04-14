@@ -32,9 +32,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $images = $request->input('images', []);
 
-        $this->products->create($data, $images);
+        $this->products->create($data);
         return response()->json(['data' => 'Product created successfully'], 201);
     }
 

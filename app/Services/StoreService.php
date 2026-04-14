@@ -29,12 +29,13 @@ class StoreService {
         }
 
         DB::insert("INSERT INTO store
-            (idOwner, storeName, storeDescription, stateId, municipalitiesId, address, zipCode, phoneNumber, storeIsActive, ImageUrl)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)",
+            (idOwner, storeName, storeDescription, category, stateId, municipalitiesId, address, zipCode, phoneNumber, storeIsActive, ImageUrl)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)",
             [
                 $userId,
                 $data['storeName'],
                 $data['storeDescription'],
+                $data['category'],
                 $data['stateId'],
                 $data['municipalitiesId'],
                 $data['address'],
@@ -48,7 +49,6 @@ class StoreService {
 
         return [
             'storeName' => $data['storeName'],
-            'email' => $data['email']
         ];
 
         return DB::getPdo()->lastInsertId();

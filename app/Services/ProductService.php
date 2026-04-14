@@ -17,33 +17,35 @@ class ProductService {
         ");
     }
 
-    public function create($data, $base64Images = []){
+    public function create($data){
+
+        $imageUrl = null;
+        if (isset($data['imageUrl']) && !empty($data['imageUrl'])) {
+            $image_service_str = substr($data['imageUrl'], strpos($data['imageUrl'], ",") + 1);
+            $image_data = base64_decode($image_service_str);
+            $fileName = 'product_' . time() . '_' . \Illuminate\Support\Str::random(5) . '.png';
+            $imageUrl = 'products/' . $fileName;
+            \Illuminate\Support\Facades\Storage::disk('public')->put($imageUrl, $image_data);
+        }
+
         DB::insert("INSERT INTO products
-            (productName, productDescription, brand, price, idStore, idProductQuality, stock, SKU, isActive, createAt, modifiedAt)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), NOW())",
+            (productName, productDescription, brand, price, idStore, idProductQuality, stock, SKU, isActive, createAt, modifiedAt,idCategory, idSubcategory, ImageUrl)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), NOW(), ?, ?, ?)",
             [
-                $data['productName'], $data['productDescription'], $data['brand'],
-                $data['price'], $data['idStore'], $data['idProductQuality'],
-                $data['stock'], $data['SKU']
+                $data['productName'],
+                $data['productDescription'],
+                $data['brand'],
+                $data['price'],
+                $data['idStore'],
+                $data['idProductQuality'],
+                $data['stock'],
+                $data['SKU'],
+                $data['idCategory'],
+                $data['idSubcategory'],
+                $imageUrl
             ]);
 
         $productId = DB::getPdo()->lastInsertId();
-
-        if (!empty($base64Images)) {
-            foreach ($base64Images as $base64String) {
-                $image_service_str = substr($base64String, strpos($base64String, ",") + 1);
-                $image_data = base64_decode($image_service_str);
-
-                $fileName = 'prod_' . time() . '_' . Str::random(10) . '.png';
-                $path = 'products/' . $fileName;
-
-                Storage::disk('public')->put($path, $image_data);
-
-                DB::insert("INSERT INTO product_images (idProduct, imageUrl, isActive) VALUES (?, ?, 1)", [
-                    $productId, $path
-                ]);
-            }
-        }
         return $productId;
     }
 

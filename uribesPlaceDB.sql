@@ -23,12 +23,21 @@ create table if not EXISTS category(
 );
 
 INSERT INTO category (categoryName) VALUES ('Farmacia');
+INSERT INTO category (categoryName) VALUES ('Deportes');
+INSERT INTO category (categoryName) VALUES ('Ropa');
+INSERT INTO category (categoryName) VALUES ('Sexo');
 
 create table if not EXISTS subcategory (
                                            subcategoryId integer primary key AUTO_INCREMENT,
                                            categoryId integer REFERENCES category(idCategory),
                                            subcategoryName varchar(50)
 );
+
+INSERT INTO subcategory (categoryId, subcategoryName)
+VALUES
+(2, 'tennis'),
+(3, 'pantalones'),
+(4, 'masturbador');
 
 create table if not EXISTS productQuality (
                                               productQualityId integer PRIMARY key AUTO_INCREMENT,
@@ -62,7 +71,7 @@ alter table users add column password varchar(255) not null after email;
 alter table users add column role varchar(20) not null default 'user' after password;
 alter table users add column isActive boolean default true after role;
 alter table users add column ImageUrl varchar(255) after modifiedAt;
-ALTER TABLE users 
+ALTER TABLE users
     ADD CONSTRAINT UNIQUE_DNI UNIQUE (DNI),
     ADD CONSTRAINT UNIQUE_EMAIL UNIQUE (email),
     ADD CONSTRAINT UNIQUE_NICKNAME UNIQUE (nickname);
@@ -171,6 +180,11 @@ VALUES (
     'PRU-EBA-001'
 
 );
+
+alter table products add column ImageUrl varchar(255) after modifiedAt;
+alter table products add column idCategory integer References category(idCategory) after ImageUrl;
+alter table products add column idSubcategory integer References subcategory(subcategoryId) after idCategory;
+alter table products add column idStore integer References store(storeId) after idSubcategory;
 
 CREATE TABLE IF NOT EXISTS product_images (
     idImage INTEGER PRIMARY KEY AUTO_INCREMENT,
