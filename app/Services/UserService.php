@@ -144,13 +144,10 @@ class UserService
 
     public function getTiendasSeguidas($userId)
     {
-        return DB::select("select s.storeId, s.storeName, c.categoryName, s.storeDescription
-from store s
-join category c on s.category = c.idCategory
-join storefollow sf on s.storeId = sf.idStore
-join users u on u.userId = sf.userId
-where u.userId = ? and s.storeIsActive = 1", [$userId]);
-    }
+        // return DB::select("select s.storeId, s.storeName, c.categoryName, s.storeDescription, s.ImageUrl, s.reputation, COUNT(p.idProduct) as cantProductos from store s join category c on s.category = c.idCategory join products p on s.storeId = p.idStore join storefollow sf on s.storeId = sf.idStore join users u on u.userId = sf.userId where u.userId = ? and s.storeIsActive = 1", [$userId]);
+                return DB::select("select s.storeId, s.storeName, c.categoryName, s.storeDescription, s.ImageUrl, s.reputation from store s join category c on s.category = c.idCategory join products p on s.storeId = p.idStore join storefollow sf on s.storeId = sf.idStore join users u on u.userId = sf.userId where u.userId = ? and s.storeIsActive = 1", [$userId]);
+
+        }
 
     public function getEstados()
     {
