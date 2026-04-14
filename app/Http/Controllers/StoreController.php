@@ -107,7 +107,7 @@ class StoreController extends Controller
 
     #[Patch('/deactivate/{id}')]
     public function destroy($id) {
-        $this->stores->deactivate($id);
+        $this->stores->desactivate($id);
         return response()->json(['message' => 'Store deactivated successfully'], 200);
     }
 }

@@ -70,14 +70,6 @@ class StoreService {
         $fields .= "modifiedAt = NOW()";
         $values[] = $id;
 
-        DB::insert("INSERT into activitylog(activityDescription)
-                            values(CONCAT('Se actualizo la tienda: ', ?, '. De nombre de tienda: ', ?))", [$data['storeName'], $data['storeName']]);
-
-        return [
-            'storeName' => $data['storeName'],
-            'email' => $data['email']
-        ];
-
         return DB::update("UPDATE store SET $fields WHERE storeId = ?", $values);
     }
 
@@ -120,14 +112,13 @@ class StoreService {
         ", [$limit]);
     }
 
-    public function deactivate($id, $data) {
+    public function desactivate($id, $data) {
 
         DB::insert("INSERT into activitylog(activityDescription)
                             values(CONCAT('Se elimino la tienda: ', ?, '. De nombre de tienda: ', ?))", [$data['storeName'], $data['storeName']]);
 
         return [
             'storeName' => $data['storeName'],
-            'email' => $data['email']
         ];
 
         return DB::update("UPDATE store SET storeIsActive = 0 WHERE storeId = ?", [$id]);
