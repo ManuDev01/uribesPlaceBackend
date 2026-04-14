@@ -25,12 +25,12 @@ class ShoppingCartController extends Controller
     #[Get('/getShoppingCart/{userId}')]
     public function getShoppingCart($userId){
         return response()->json($this->shoppingCart->getShoppingCart($userId), 200);
-
     }
 
-    #[Post('/saveProduct')]
-    public function saveProduct($request){
-    
+    # TODO: Aplicar este medoto
+     #[Post('/agregarAlCarrito')]
+    public function agregarAlCarrito($request){
+        return response()->json($this->shoppingCart->agregarAlCarrito($request->userId, $request->productId, $request->cantidad), 200);
     }
 
     #[Patch('/updateQuantity/{userId}/{productId}/{cantidad}')]

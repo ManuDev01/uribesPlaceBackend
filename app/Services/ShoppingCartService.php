@@ -6,8 +6,13 @@
 
     class ShoppingCartService {
 
+    function saveProduct($request){
+        DB::insert("INSERT INTO shoppingCart (userId, productId, quantity) VALUES (?, ?, ?)", [$request->userId, $request->productId, $request->quantity]);
+        return ['message' => 'Producto agregado al carrito exitosamente'];
+    }
+
     function getShoppingCart($userId) {
-            return DB::select("SELECT sc.cartId, sc.productId, sc.quantity, sc.price, p.productName, p.productDescription, s.storeName FROM shoppingCart sc JOIN products p ON sc.productId = p.idProduct JOIN store s ON p.idStore = s.storeId WHERE sc.userId = ?", [$userId]);
+            return DB::select("SELECT sc.cartId, sc.productId, sc.quantity,p.price, p.productName, p.productDescription, s.storeName FROM shoppingCart sc JOIN products p ON sc.productId = p.idProduct JOIN store s ON p.idStore = s.storeId WHERE sc.userId = ?", [$userId]);
         }
 
 
