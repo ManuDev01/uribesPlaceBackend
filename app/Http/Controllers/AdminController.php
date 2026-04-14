@@ -51,4 +51,20 @@ use Spatie\RouteAttributes\Attributes\Prefix;
             return response()->json($this->adminService->getTotalVisitas(), 200);
         }
 
+        #[Get('/activityByHour')]
+        function getActivityByHour(){
+            return response()->json($this->adminService->getActivityByHour(), 200);
+        }
+
+        #[Patch('/cambiarRol/{userId}')]
+        function cambiarRolUsuario(Request $request, $userId){
+            $nuevoRol = $request->input('nuevoRol');
+            return response()->json($this->adminService->cambiarRolUsuario($userId, $nuevoRol), 200);
+        }
+
+        #[Get('/searchUser/{searchTerm}')]
+        function searchUser($searchTerm){
+            return response()->json($this->adminService->searchUser($searchTerm), 200);
+        }
+
     }

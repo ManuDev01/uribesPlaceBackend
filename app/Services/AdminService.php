@@ -31,12 +31,15 @@
             return DB::select("SELECT count(u.userId) as registradosHoy from users u where DATE(createAt) = CURDATE() and isActive = 1");
         }
 
-        public function activityLog(){
-            return DB::select("SELECT CONCAT(u.firstName, ' ', u.lastName) as nombre,
-                        activityDescription,
-                        createdAt
-                        from activitylog al join users u on al.userId = u.userId");
-        }
+public function activityLog() {
+    return DB::select("SELECT 
+            CONCAT(u.firstName, ' ', u.lastName) as nombre,
+            al.activityDescription,
+            al.createdAt
+        FROM activitylog al 
+        LEFT JOIN users u ON al.userId = u.userId
+        ORDER BY al.createdAt DESC");
+}
 
         public function getTotalVisitas(){
             return DB::select("select s.storeName, count(s.storeName) as cantidad 
@@ -45,5 +48,48 @@
                                 order by cantidad DESC");
         }
 
+        public function getActivityByHour() {
+    return DB::select("SELECT 
+            HOUR(createdAt) as hora, 
+            COUNT(*) as total_visitas
+        FROM activitylog
+        GROUP BY HOUR(createdAt)
+        ORDER BY hora ASC");
+}
+
+public function cambiarRolUsuario($userId, $nuevoRol) {
+    // Validar que el nuevo rol sea válido (opcional)
+    return DB::update("UPDATE users SET role = ? WHERE userId = ?", [$nuevoRol, $userId]);
+}
+
+public function searchUser($searchTerm) 
+{
+    // Preparamos el término para que busque coincidencias parciales
+    $queryTerm = '%' . $searchTerm . '%';
+
+    return DB::select("SELECT 
+            u.userId, 
+            u.nickname, 
+            u.firstName, 
+            u.lastName, 
+            u.email, 
+            u.role, 
+            u.isActive, 
+            u.DNI, 
+            s.stateName, 
+            m.municipalityName, 
+            u.address, 
+            u.zipCode, 
+            u.phoneNumber, 
+            u.ImageUrl
+        FROM users u
+        LEFT JOIN state s ON u.stateId = s.stateId
+        LEFT JOIN municipalities m ON u.municipalitiesId = m.municipalitiesId
+        WHERE u.nickname LIKE ? 
+           OR u.firstName LIKE ? 
+           OR u.lastName LIKE ? 
+           OR u.email LIKE ?", 
+        [$queryTerm, $queryTerm, $queryTerm, $queryTerm]);
+}
 
     }

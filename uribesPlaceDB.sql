@@ -62,6 +62,10 @@ alter table users add column password varchar(255) not null after email;
 alter table users add column role varchar(20) not null default 'user' after password;
 alter table users add column isActive boolean default true after role;
 alter table users add column ImageUrl varchar(255) after modifiedAt;
+ALTER TABLE users 
+    ADD CONSTRAINT UNIQUE_DNI UNIQUE (DNI),
+    ADD CONSTRAINT UNIQUE_EMAIL UNIQUE (email),
+    ADD CONSTRAINT UNIQUE_NICKNAME UNIQUE (nickname);
 
 
 INSERT INTO users (nickname, firstName, lastName, email, password, role, isActive, DNI, stateId, municipalitiesId, address, zipCode, phoneNumber)
