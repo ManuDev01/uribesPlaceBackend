@@ -55,6 +55,15 @@ class ProductService {
         return $product;
     }
 
+    //esta vaina la voy a dejar asi mentras tanto
+    // public function findByIdStore($id){
+     //  return DB::select("select s.storeId, s.storeName, s.ImageUrl as storeImage, p.idProduct, p.productName, p.price,
+     //  (SELECT imageUrl FROM product_images WHERE idProduct = p.idProduct AND isActive = 1 LIMIT 1) as mainImage
+     //  FROM products p
+     //  JOIN store s ON p.idStore = s.storeId
+     //  WHERE p.idStore = ? AND p.isActive = 1", [$id]);
+    //}
+
     public function update($id, $data) {
         $fields = "";
         $values = [];
@@ -80,4 +89,5 @@ class ProductService {
         // Desactivamos sus imágenes para mantener consistencia
         return DB::update("UPDATE product_images SET isActive = 0 WHERE idProduct = ?", [$id]);
     }
+
 }

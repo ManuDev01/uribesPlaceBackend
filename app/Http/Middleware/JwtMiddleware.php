@@ -28,8 +28,6 @@ class JwtMiddleware
             $userId = $decoded->data->userId ?? null;
 
             if ($userId) {
-                // SOLUCIÓN SIN TOCAR USER.PHP:
-                // Usamos where() para especificar manualmente que la columna es 'userId'
                 $user = User::where('userId', $userId)->first();
 
                 if ($user) {
