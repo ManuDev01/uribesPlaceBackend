@@ -203,6 +203,9 @@ create table if not EXISTS shoppingCart (
                                             userId integer REFERENCES users(userId)
 );
 
+alter table shoppingCart add column quantity integer default 1 after userId;
+alter table shoppingCart add column price double after quantity;
+
 create table if not EXISTS orders (
                                       orderId integer PRIMARY KEY AUTO_INCREMENT,
                                       customerId integer REFERENCES users(userId),
