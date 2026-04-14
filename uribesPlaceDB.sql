@@ -203,6 +203,10 @@ create table if not EXISTS shoppingCart (
                                             userId integer REFERENCES users(userId)
 );
 
+alter table shoppingCart add column quantity integer default 1 after userId;
+
+INSERT INTO `shoppingcart`( `productId`, `userId`, `quantity`) VALUES (1,1,10);
+
 create table if not EXISTS orders (
                                       orderId integer PRIMARY KEY AUTO_INCREMENT,
                                       customerId integer REFERENCES users(userId),
