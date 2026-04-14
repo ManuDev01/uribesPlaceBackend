@@ -57,8 +57,24 @@ public function activityLog() {
         ORDER BY hora ASC");
 }
 
-public function cambiarRolUsuario($userId, $nuevoRol) {
-    // Validar que el nuevo rol sea válido (opcional)
+public function cambiarRolUsuario($userId, $nuevoRol, $adminId) {
+    // 1. Obtenemos el nombre del administrador y del usuario afectado
+    // Usamos un JOIN o dos consultas rápidas para armar la descripción
+    $datos = DB::selectOne("
+        SELECT 
+            (SELECT nickname FROM users WHERE userId = ?) as adminName,
+            (SELECT nickname FROM users WHERE userId = ?) as targetName
+    ", [$adminId, $userId]);
+
+    $descripcion = "El administrador {$datos->adminName} cambió el rol de {$datos->targetName} a {$nuevoRol}";
+
+    // 2. Insertamos en el log de actividad usando el ID del administrador
+    DB::insert("
+        INSERT INTO activitylog (userId, activityDescription, createdAt) 
+        VALUES (?, ?, NOW())
+    ", [$adminId, $descripcion]);
+
+    // 3. Actualizamos el rol
     return DB::update("UPDATE users SET role = ? WHERE userId = ?", [$nuevoRol, $userId]);
 }
 
