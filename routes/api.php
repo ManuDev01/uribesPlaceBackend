@@ -32,16 +32,16 @@ Route::middleware(['auth.jwt'])->group(function () {
     Route::post('stores/create', [StoreController::class, 'store']);
     Route::post('stores/rate', [StoreController::class, 'rate']);
     Route::patch('stores/update/{id}', [StoreController::class, 'update']);
-    Route::patch('stores/deactivate/{id}', [StoreController::class, 'destroy']);
+    Route::patch('stores/desactivate/{id}', [StoreController::class, 'destroy']);
 });
 
 # ! Rutas Products
 Route::get('products/getAllProducts', [ProductController::class, 'getAll']);
 Route::post('products/create', [ProductController::class, 'store']);
-Route::get('products/show/{id}', [ProductController::class, 'show']);
+Route::get('products/{id}', [ProductController::class, 'show']);
 Route::patch('products/update/{id}', [ProductController::class, 'update']);
 Route::post('stores/rate', [StoreController::class, 'rate']);
-Route::patch('products/destroy/{id}', [ProductController::class, 'destroy']);
+Route::patch('products/desactivate/{id}', [ProductController::class, 'remove']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

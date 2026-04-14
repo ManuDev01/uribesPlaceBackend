@@ -1,0 +1,15 @@
+info:
+  name: Delete Product
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: http://127.0.0.1/api/products/delete
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

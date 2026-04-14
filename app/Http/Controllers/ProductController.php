@@ -63,8 +63,8 @@ class ProductController extends Controller
     }
 
     // Cambiado de #[Delete] a #[Patch] para Soft Delete profesional
-    #[Patch('/deactivate/{id}')]
-    public function destroy(Request $request)
+    #[Patch('/desactivate/{id}')]
+    public function remove(Request $request)
     {
         $id = $request->route('id');
         $this->products->remove($id);
