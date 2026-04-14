@@ -149,7 +149,7 @@ from store s
 join category c on s.category = c.idCategory
 join storefollow sf on s.storeId = sf.idStore
 join users u on u.userId = sf.userId
-where u.userId = 1 and s.storeIsActive = ?", [$userId]);
+where u.userId = ? and s.storeIsActive = 1", [$userId]);
     }
 
     public function getEstados()

@@ -8,10 +8,10 @@
     use Illuminate\Http\Request;
 
     use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\RouteAttributes\Attributes\Patch;
-use Spatie\RouteAttributes\Attributes\Delete;
-use Spatie\RouteAttributes\Attributes\Prefix;
+    use Spatie\RouteAttributes\Attributes\Post;
+    use Spatie\RouteAttributes\Attributes\Patch;
+    use Spatie\RouteAttributes\Attributes\Delete;
+    use Spatie\RouteAttributes\Attributes\Prefix;
 
     #[Prefix('/admin')]
     class AdminController extends Controller {
@@ -57,9 +57,14 @@ use Spatie\RouteAttributes\Attributes\Prefix;
         }
 
         #[Patch('/cambiarRol/{userId}')]
-        function cambiarRolUsuario(Request $request, $userId){
+        function cambiarRolUsuario(Request $request, $userId) {
             $nuevoRol = $request->input('nuevoRol');
-            return response()->json($this->adminService->cambiarRolUsuario($userId, $nuevoRol), 200);
+            $adminId = $request->input('adminId'); // Recibimos el ID de quien opera
+            
+            return response()->json(
+                $this->adminService->cambiarRolUsuario($userId, $nuevoRol, $adminId), 
+                200
+            );
         }
 
         #[Get('/searchUser/{searchTerm}')]
